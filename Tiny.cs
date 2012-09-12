@@ -2,18 +2,18 @@ using System.Collections.Generic;
 using System.Dynamic;
 namespace ConsoleArgs 
 {
-    public class ConsoleArguments
+    public class Tiny
     {
         public dynamic Arguments;
 
-        public ConsoleArguments(string[] arguments)
+        public Tiny(string[] arguments)
         {
             Arguments = new ExpandoObject();
             var argumentDictionary = Arguments as IDictionary<string, object>;
             FillArguments(arguments, argumentDictionary, ':');
         }
 
-        public ConsoleArguments(string[] arguments, char separator)
+        public Tiny(string[] arguments, char separator)
         {
             Arguments = new ExpandoObject();
             var argumentDictionary = Arguments as IDictionary<string, object>;
