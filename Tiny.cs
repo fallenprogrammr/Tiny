@@ -1,31 +1,32 @@
 using System.Collections.Generic;
 using System.Dynamic;
+using System.Globalization;
+
 public class Tiny
 {
-    public dynamic Arguments;
+    public readonly dynamic Arguments;
 
-    public Tiny(string[] arguments)
+    public Tiny(IEnumerable<string> arguments)
     {
         Arguments = new ExpandoObject();
         var argumentDictionary = Arguments as IDictionary<string, object>;
         FillArguments(arguments, argumentDictionary, ':');
     }
 
-    public Tiny(string[] arguments, char separator)
+    public Tiny(IEnumerable<string> arguments, char separator)
     {
         Arguments = new ExpandoObject();
         var argumentDictionary = Arguments as IDictionary<string, object>;
         FillArguments(arguments, argumentDictionary, separator);
     }
 
-    private void FillArguments(string[] arguments, IDictionary<string, object> argumentDictionary, char separator)
+    private static void FillArguments(IEnumerable<string> arguments, IDictionary<string, object> argumentDictionary, char separator)
     {
         var undefinedCounter = 1;
         foreach (var argument in arguments)
         {
-            var name = string.Empty;
-            var value = string.Empty;
-            if (argument.Contains(separator.ToString()))
+            string name, value;
+            if (argument.Contains(separator.ToString(CultureInfo.InvariantCulture)))
             {
                 var firstInstancePosition = argument.IndexOf(separator, 0);
                 name = argument.Substring(0, firstInstancePosition);
@@ -33,7 +34,7 @@ public class Tiny
             }
             else
             {
-                name = "UndefinedArgument" + undefinedCounter;
+                name = "UndefinedArgument" + undefinedCounter++;
                 value = argument;
             }
             argumentDictionary.Add(name, value);
