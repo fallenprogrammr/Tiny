@@ -39,5 +39,6 @@ public class Tiny
             }
             argumentDictionary.Add(name, value);
         }
+        argumentDictionary.Add("count", arguments.Count());
     }
 }
