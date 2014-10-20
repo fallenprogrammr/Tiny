@@ -1,6 +1,9 @@
+using System;
 using System.Collections.Generic;
 using System.Dynamic;
 using System.Globalization;
+using System.Linq;
+using System.Linq.Expressions;
 
 public class Tiny
 {
@@ -11,6 +14,7 @@ public class Tiny
         Arguments = new ExpandoObject();
         var argumentDictionary = Arguments as IDictionary<string, object>;
         FillArguments(arguments, argumentDictionary, ':');
+        argumentDictionary.Add("contains", new Func<string, bool>((argument) => { return (Arguments as IDictionary<string, object>).ContainsKey(argument); }));
     }
 
     public Tiny(IEnumerable<string> arguments, char separator)
@@ -18,6 +22,7 @@ public class Tiny
         Arguments = new ExpandoObject();
         var argumentDictionary = Arguments as IDictionary<string, object>;
         FillArguments(arguments, argumentDictionary, separator);
+        argumentDictionary.Add("contains",new Func<string, bool>((argument) => { return (Arguments as IDictionary<string, object>).ContainsKey(argument); }));
     }
 
     private static void FillArguments(IEnumerable<string> arguments, IDictionary<string, object> argumentDictionary, char separator)
